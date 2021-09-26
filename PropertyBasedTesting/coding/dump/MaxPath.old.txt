@@ -1,0 +1,68 @@
+-- Removed Code
+{-
+addAll :: Int -> TreePath -> TreePath -> TreePath
+addAll n (End l) (End r) =
+  Many ([n], [n+l], [n+r], [n+l+r])
+addAll n (End l) rs      =
+  addAll n ls rs
+  where
+    ls = Many ([l], [], [], [])
+addAll n ls      (End r) =
+  addAll n ls rs
+  where
+    rs = Many ([r], [], [], [])
+addAll n ls      rs      =
+  Many (ns', ls'', rs'', cs')
+  where
+    -- fix all this redundant applications of map to some fold only keeping maxes
+    ns'  =  n : nsLR
+    nsLR =  nsL ++ nsR
+    nsL  =  map (+ n) (getPath ls 'F')
+    nsR  =  map (+ n) (getPath rs 'F')
+    ls'' =  getPath ls 'L' ++ getPath ls 'R' ++ ls'
+    ls'  =  map (+ n) (getPath ls 'L') ++ map (+ n) (getPath ls 'R')
+    rs'' =  getPath rs 'L' ++ getPath rs 'R' ++ rs'
+    rs'  =  map (+ n) (getPath rs 'L') ++ map (+ n) (getPath rs 'R')
+    cs   =  getPath ls 'C' ++ getPath rs 'C'
+    cs'  =  cs ++ crossApply n (nsL ++ ls') rs' []
+            where
+              -- optimise this cross apply to be some sort of fold
+              -- to only keep the max
+              -- so max doesnt have to traverse the whole thing
+              crossApply :: Int -> [Int] -> [Int] -> [Int] -> [Int]
+              crossApply n []      _ cs = cs
+              crossApply n _      [] cs = cs
+              crossApply n (a:as) bs cs =
+                cs ++ map (+ (a - n)) bs ++ crossApply n as bs cs
+-}
+
+{-
+onlyMax :: TreePath -> TreePath
+onlyMax (End n) = End n
+onlyMax (Many (fs,ls,rs,cs)) = 
+  Many (fs',ls',rs',cs')
+  where
+    fs' = maximum'' fs
+    ls' = maximum'' ls
+    rs' = maximum'' rs
+    cs' = maximum'' cs
+-}
+
+{-
+data Tree a = Leaf a
+            | Node (Tree a) a (Tree a)
+            deriving Show
+
+maxPath :: Tree Int -> Int
+maxPath t = maxP t 0
+
+maxP :: Tree Int -> Int -> Int 
+maxP (Leaf a) max
+  | max >= a = max
+  | otherwise = a
+maxP (Node l a r) max = 
+  maximum [max, l' + a, a + r', l', r']
+  where
+    l' = maxP l max
+    r' = maxP r max
+-}

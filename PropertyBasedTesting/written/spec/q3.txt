@@ -1,0 +1,5 @@
+q3)
+  Write two unit tests and two quick checks for maxPath.
+
+  For each test, breifly explain why you chose that test.
+

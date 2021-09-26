@@ -1,0 +1,52 @@
+You *MAY* use packages from base
+https://hackage.haskell.org/package/base
+but no others.
+
+You may remove the comments if you like.
+
+A Stack is a data structure typically used for first in, last out (FILO) 
+
+Consider the following data constructor...
+    data Stack a = Empty | Stack (Stack a) a deriving Show
+
+You task is to implement some of the typical higher-order-function for this
+list.
+
+**DO NOT** just convert to a list and convert back.
+
+=======
+EXAMPLE
+=======
+
+> as = Empty
+> bs = Stack as 1
+> cs = Stack bs 2
+> xs = Stack cs 3
+> ys = Stack xs 4
+> zs = Stack ys 5
+
+> stackFoldl (*) 6 zs
+720
+
+> stackFoldl (^) 0 xs
+9
+
+> stackFoldr (*) 6 zs
+720
+
+> stackFoldr (^) 0 xs
+
+
+> stackMap (2*) zs
+Stack (Stack (Stack (Stack (Stack Empty 2) 4) 6) 8) 10
+
+> ks = stackMap (2*) zs
+> stackZip xs ks-- as with built-in zip, truncate the longer stack.
+Stack (Stack (Stack Empty (1,6)) (2,8)) (3,10)
+
+NOTE:  Passing these tests ONLY is DEFINITELY insufficient to conclude your code
+is correct.  For instance, the folding examples use a commutative operator and 
+thus do not actually distinguishing between left and right folding.
+
+Part of this assessment is producing tests for your own code.  Indeed your
+written submission is asking for some tests.
